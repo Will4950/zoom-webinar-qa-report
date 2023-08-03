@@ -1,4 +1,4 @@
-# Zoom Webinar QAReport Getter
+# Zoom Webinar QA Report Getter
 
 This is a sample app for a specific Zoom use case.
 
