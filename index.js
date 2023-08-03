@@ -29,7 +29,8 @@ let webinars = await getPastWebinars(accessToken, []);
 
 for (let i in webinars) {
 	let questions = await getQAReport(accessToken, webinars[i].id);
-	if (questions.length === 0) break; // No Q&A happened
+
+	if (questions.length === 0) continue;
 
 	let webinarCSV = await json2csv.parse(questions);
 	let currentDate = new Date().toJSON().slice(0, 10);
@@ -37,11 +38,11 @@ for (let i in webinars) {
 	if (!fs.existsSync(`${directory}${currentDate}`))
 		fs.mkdirSync(`${directory}${currentDate}`, {recursive: true});
 
-	fs.writeFileSync(
-		`${directory}${currentDate}/${webinars[i].id}-qa-report.csv`,
-		webinarCSV,
-		'utf8'
-	);
+	let file = `${directory}${currentDate}/${webinars[i].id}-qa-report.csv`;
+
+	fs.writeFileSync(file, webinarCSV, 'utf8');
+
+	logger.info(`Created : ${file}`);
 }
 
 logger.info('Done.');
